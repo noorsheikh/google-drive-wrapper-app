@@ -1,10 +1,23 @@
+import { useState } from "react";
 import "./App.css";
-import { Button } from "./components/ui/button";
+import { GoogleLogin } from "@react-oauth/google";
 
 function App() {
-  return (
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+
+  return isLoggedIn ? (
+    <h1>logged in</h1>
+  ) : (
     <div className="container mx-auto place-items-center py-32 text-center">
-      <Button>Click Here!</Button>
+      <GoogleLogin
+        onSuccess={(credentialResponse) => {
+          console.log(credentialResponse);
+          setIsLoggedIn(true);
+        }}
+        onError={() => {
+          console.log("login failed!");
+        }}
+      />
     </div>
   );
 }
