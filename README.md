@@ -20,3 +20,7 @@ After successfully getting the Google Client ID and configuring it in the app. N
 - From the left sidebar click on `Library` menu item.
 - In the main search bar in the Library screen, search for `Google Drive API`.
 - Click ont eh `Google Drive API` from the search result and click `ENABLE` on the next screen.
+
+# Environment Variables for Local Environment
+
+To setup env variable files, rename `.env.template` to `.env` and provide real values to all the defined env variables.

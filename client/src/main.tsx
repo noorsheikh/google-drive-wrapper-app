@@ -3,9 +3,10 @@ import { BrowserRouter } from "react-router";
 import "./index.css";
 import App from "./App.tsx";
 import { GoogleOAuthProvider } from "@react-oauth/google";
+import { googleClientId } from "@/config";
 
 createRoot(document.getElementById("root")!).render(
-  <GoogleOAuthProvider clientId="client-id-here">
+  <GoogleOAuthProvider clientId={googleClientId}>
     <BrowserRouter>
       <App />
     </BrowserRouter>
