@@ -1,4 +1,4 @@
 export default interface CurrentUser {
-  displayName: string;
-  photoUrl: string;
+  name: string;
+  email: string;
 }
