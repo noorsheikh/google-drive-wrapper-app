@@ -21,7 +21,7 @@ function App() {
     }
   }, [isLoggedIn, currentUser]);
 
-  const onSuccess = (response: CredentialResponse): void => {
+  const onSuccess = (response: CredentialResponse) => {
     if (response.credential) {
       setIsLoggedIn(true);
       setItem("accessToken", response.credential);
