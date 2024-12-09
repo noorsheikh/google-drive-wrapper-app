@@ -10,8 +10,8 @@ export const currentUserInfo = async (
       const response = await fetch(
         `${serverBaseUrl}/userinfo?access_token=${accessToken}`
       );
-      const { name = "", email = "", picture = "" } = await response.json();
-      const currentUser = { name, email, picture };
+      const { name = "", email = "" } = await response.json();
+      const currentUser = { name, email };
       setItem("currentUser", JSON.stringify(currentUser));
       return currentUser;
     }

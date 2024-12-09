@@ -3,11 +3,7 @@ import "./App.css";
 import { TokenResponse, useGoogleLogin } from "@react-oauth/google";
 import { setItem, getItem, removeItem } from "@/core/storage/localStorage";
 import CurrentUser from "./core/auth/models/CurrentUser";
-import {
-  extractCurrentUserInfoFromToken,
-  getInitialsForName,
-  scopes,
-} from "./core/auth/utils";
+import { getInitialsForName, scopes } from "./core/auth/utils";
 import { Avatar, AvatarFallback } from "./components/ui/avatar";
 import { Unlock } from "lucide-react";
 import { currentUserInfo } from "./core/auth/services/currentUser";
@@ -20,6 +16,9 @@ function App() {
     const accessToken = getItem("accessToken");
     if (accessToken) {
       setIsLoggedIn(true);
+    }
+    if (getItem("currentUser")) {
+      setCurrentUser(JSON.parse(getItem("currentUser")));
     }
   }, [isLoggedIn]);
 
