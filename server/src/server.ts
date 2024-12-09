@@ -56,7 +56,6 @@ app.get("/allfiles", async (req: Request, res: Response) => {
   try {
     const drive = google.drive({ version: "v2", auth: oauth2Client });
     const response = await drive.files.list();
-    console.log(response?.data?.items);
     const items = response?.data?.items?.map(
       ({
         id,
@@ -77,6 +76,32 @@ app.get("/allfiles", async (req: Request, res: Response) => {
       })
     );
     res.status(200).json(items);
+  } catch (error) {
+    console.log(error);
+    res.status(400).send(error);
+  }
+});
+
+app.get("/remove-file", async (req: Request, res: Response) => {
+  const { access_token = "", file_id: fileId = "" } = req?.query;
+
+  const oauth2Client = new google.auth.OAuth2();
+  if (access_token && typeof access_token === "string") {
+    oauth2Client.setCredentials({
+      access_token,
+    });
+  } else {
+    res.status(400).send("Invalid access token parameter provide.");
+  }
+
+  try {
+    if (fileId && typeof fileId === "string") {
+      const drive = google.drive({ version: "v2", auth: oauth2Client });
+      const response = await drive.files.delete({ fileId });
+      res.status(200).end("File deleted successfully");
+    } else {
+      res.status(400).end("Invalid file id");
+    }
   } catch (error) {
     console.log(error);
     res.status(400).send(error);
