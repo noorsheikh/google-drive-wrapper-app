@@ -6,4 +6,6 @@ export interface File {
   fileExtension: string;
   createdData: string;
   modifiedDate: string;
+  webContentLink?: string;
+  exportLinks?: { [key: string]: string };
 }

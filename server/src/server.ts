@@ -2,6 +2,7 @@ import bodyParser from "body-parser";
 import express, { Request, Response } from "express";
 import { google } from "googleapis";
 import cors from "cors";
+import fs from "fs";
 
 const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -50,7 +51,7 @@ app.get("/allfiles", async (req: Request, res: Response) => {
       access_token,
     });
   } else {
-    res.status(400).send("Invalid access token parameter provide.");
+    res.status(400).send("Invalid access token parameter provided.");
   }
 
   try {
@@ -65,6 +66,8 @@ app.get("/allfiles", async (req: Request, res: Response) => {
         fileExtension,
         createdDate,
         modifiedDate,
+        webContentLink,
+        exportLinks,
       }) => ({
         id,
         title,
@@ -73,6 +76,8 @@ app.get("/allfiles", async (req: Request, res: Response) => {
         fileExtension,
         createdDate,
         modifiedDate,
+        webContentLink,
+        exportLinks,
       })
     );
     res.status(200).json(items);
@@ -91,13 +96,13 @@ app.get("/remove-file", async (req: Request, res: Response) => {
       access_token,
     });
   } else {
-    res.status(400).send("Invalid access token parameter provide.");
+    res.status(400).send("Invalid access token parameter provided.");
   }
 
   try {
     if (fileId && typeof fileId === "string") {
       const drive = google.drive({ version: "v2", auth: oauth2Client });
-      const response = await drive.files.delete({ fileId });
+      await drive.files.delete({ fileId });
       res.status(200).end("File deleted successfully");
     } else {
       res.status(400).end("Invalid file id");
