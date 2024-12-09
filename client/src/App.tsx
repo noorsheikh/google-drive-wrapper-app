@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import "./App.css";
-import { CredentialResponse, GoogleLogin } from "@react-oauth/google";
+import { TokenResponse, useGoogleLogin } from "@react-oauth/google";
 import { setItem, getItem, removeItem } from "@/core/storage/localStorage";
 import CurrentUser from "./core/auth/models/CurrentUser";
 import {
@@ -12,7 +12,6 @@ import { Unlock } from "lucide-react";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
-  const [_, setLoginFailed] = useState<boolean>(false);
   const [currentUser, setCurrentUser] = useState<CurrentUser | undefined>();
 
   useEffect(() => {
@@ -23,24 +22,21 @@ function App() {
     }
   }, [isLoggedIn]);
 
-  const onSuccess = (response: CredentialResponse) => {
-    if (response.credential) {
-      setIsLoggedIn(true);
-      setItem("accessToken", response.credential);
-    }
-  };
-
-  const onError = () => {
-    setIsLoggedIn(false);
-    setLoginFailed(true);
-    removeItem("accessToken");
-  };
-
   const onLogout = () => {
     setCurrentUser(undefined);
     removeItem("accessToken");
     setIsLoggedIn(false);
   };
+
+  const login = useGoogleLogin({
+    onSuccess: (
+      response: Omit<TokenResponse, "error" | "error_description" | "error_uri">
+    ) => {
+      setIsLoggedIn(true);
+      setItem("accessToken", response.access_token);
+    },
+    onError: (error) => console.log("Login Failed:", error),
+  });
 
   return isLoggedIn ? (
     <div className="container mx-auto p-4 bg-slate-50 flex flex-row justify-between">
@@ -57,7 +53,17 @@ function App() {
     </div>
   ) : (
     <div className="container mx-auto place-items-center py-32 text-center">
-      <GoogleLogin onSuccess={onSuccess} onError={onError} />
+      <button
+        className="px-4 py-2 border rounded-sm flex flex-row gap-2 items-center"
+        onClick={() => login()}
+      >
+        <img
+          src="https://cdn.brandfetch.io/id6O2oGzv-/theme/dark/symbol.svg?c=1dxbfHSJFAPEGdCLU4o5B"
+          height={20}
+          width={20}
+        />
+        <p>Sign in with Google</p>
+      </button>
     </div>
   );
 }
