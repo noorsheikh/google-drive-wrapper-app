@@ -6,6 +6,7 @@ import CurrentUser from "./core/auth/models/CurrentUser";
 import {
   extractCurrentUserInfoFromToken,
   getInitialsForName,
+  scopes,
 } from "./core/auth/utils";
 import { Avatar, AvatarFallback } from "./components/ui/avatar";
 import { Unlock } from "lucide-react";
@@ -36,6 +37,7 @@ function App() {
       setItem("accessToken", response.access_token);
     },
     onError: (error) => console.log("Login Failed:", error),
+    scope: scopes.join(" "),
   });
 
   return isLoggedIn ? (
