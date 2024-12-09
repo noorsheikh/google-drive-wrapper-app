@@ -32,11 +32,12 @@ app.get("/userinfo", async (req: Request, res: Response) => {
       auth: oauth2Client,
     });
 
-    const userInfoResponse = await oauth2.userinfo.get();
-    res.json(userInfoResponse.data);
+    const response = await oauth2.userinfo.get();
+    const { name, email } = response.data;
+    res.status(200).json({ name, email });
   } catch (error) {
     console.log(error);
-    res.send(error);
+    res.status(400).send(error);
   }
 });
 
@@ -55,10 +56,27 @@ app.get("/allfiles", async (req: Request, res: Response) => {
   try {
     const drive = google.drive({ version: "v2", auth: oauth2Client });
     const response = await drive.files.list();
-    res.json(response.data);
+    const items = response?.data?.items?.map(
+      ({
+        title,
+        thumbnailLink,
+        iconLink,
+        fileExtension,
+        createdDate,
+        modifiedDate,
+      }) => ({
+        title,
+        thumbnailLink,
+        iconLink,
+        fileExtension,
+        createdDate,
+        modifiedDate,
+      })
+    );
+    res.status(200).json(items);
   } catch (error) {
     console.log(error);
-    res.send(error);
+    res.status(400).send(error);
   }
 });
 
