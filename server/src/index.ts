@@ -1,21 +1,26 @@
 import bodyParser from "body-parser";
 import express, { Request, Response } from "express";
 import { google } from "googleapis";
+import cors from "cors";
 
 const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+  })
+);
 
 const port = 3000;
 
 app.get("/userinfo", async (req: Request, res: Response) => {
-  const { accessToken = "" } = req?.query;
+  const { access_token = "" } = req?.query;
 
   const oauth2Client = new google.auth.OAuth2();
-  if (accessToken && typeof accessToken === "string") {
-    console.log("access token: ", accessToken);
+  if (access_token && typeof access_token === "string") {
     oauth2Client.setCredentials({
-      access_token: accessToken,
+      access_token,
     });
   } else {
     res.status(400).send("Invalid access token parameter provide.");
@@ -36,13 +41,12 @@ app.get("/userinfo", async (req: Request, res: Response) => {
 });
 
 app.get("/allfiles", async (req: Request, res: Response) => {
-  const { accessToken = "" } = req?.query;
+  const { access_token = "" } = req?.query;
 
   const oauth2Client = new google.auth.OAuth2();
-  if (accessToken && typeof accessToken === "string") {
-    console.log("access token: ", accessToken);
+  if (access_token && typeof access_token === "string") {
     oauth2Client.setCredentials({
-      access_token: accessToken,
+      access_token,
     });
   } else {
     res.status(400).send("Invalid access token parameter provide.");
