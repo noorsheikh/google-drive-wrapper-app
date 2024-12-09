@@ -23,6 +23,7 @@ import {
 } from "./components/ui/table";
 import getAllFiles from "./core/googleDrive/services/getAllFiles";
 import { File } from "./core/googleDrive/models/File";
+import removeFile from "./core/googleDrive/services/removeFile";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
@@ -63,6 +64,16 @@ function App() {
     setFiles(await getAllFiles(accessToken));
   };
 
+  const removeFileActionHandler = async (fileId: string) => {
+    const accessToken = getItem("accessToken");
+    if (accessToken && fileId) {
+      const fileRemoved = await removeFile(accessToken, fileId);
+      if (fileRemoved) {
+        setFiles((files) => files?.filter((file) => file.id !== fileId));
+      }
+    }
+  };
+
   return isLoggedIn ? (
     <>
       <div className="container mx-auto p-4 bg-slate-50 flex flex-row justify-between">
@@ -95,8 +106,8 @@ function App() {
             <TableHead>Actions</TableHead>
           </TableHeader>
           <TableBody>
-            {files?.map((file, index) => (
-              <TableRow key={index} className="text-left">
+            {files?.map((file) => (
+              <TableRow key={file.id} className="text-left">
                 <TableCell>{file.title}</TableCell>
                 <TableCell>{file.fileExtension}</TableCell>
                 <TableCell>{file.createdDate}</TableCell>
@@ -128,6 +139,7 @@ function App() {
                         className="cursor-pointer"
                         color="red"
                         size={18}
+                        onClick={() => removeFileActionHandler(file.id)}
                       />
                       <span className="absolute top-5 scale-0 rounded bg-gray-800 p-2 text-xs text-white group-hover:scale-100 z-50">
                         Remove
