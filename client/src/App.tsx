@@ -6,7 +6,7 @@ import CurrentUser from "./core/auth/models/CurrentUser";
 import { getInitialsForName, scopes } from "./core/auth/utils";
 import { Avatar, AvatarFallback } from "./components/ui/avatar";
 import { Unlock } from "lucide-react";
-import { currentUserInfo } from "./core/auth/services/currentUser";
+import currentUserInfo from "./core/auth/services/currentUser";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
