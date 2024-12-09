@@ -10,6 +10,7 @@ import {
 } from "./core/auth/utils";
 import { Avatar, AvatarFallback } from "./components/ui/avatar";
 import { Unlock } from "lucide-react";
+import { currentUserInfo } from "./core/auth/services/currentUser";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
@@ -19,22 +20,23 @@ function App() {
     const accessToken = getItem("accessToken");
     if (accessToken) {
       setIsLoggedIn(true);
-      setCurrentUser(extractCurrentUserInfoFromToken(accessToken));
     }
   }, [isLoggedIn]);
 
   const onLogout = () => {
     setCurrentUser(undefined);
     removeItem("accessToken");
+    removeItem("currentUser");
     setIsLoggedIn(false);
   };
 
   const login = useGoogleLogin({
-    onSuccess: (
+    onSuccess: async (
       response: Omit<TokenResponse, "error" | "error_description" | "error_uri">
     ) => {
       setIsLoggedIn(true);
       setItem("accessToken", response.access_token);
+      setCurrentUser(await currentUserInfo(response.access_token));
     },
     onError: (error) => console.log("Login Failed:", error),
     scope: scopes.join(" "),
