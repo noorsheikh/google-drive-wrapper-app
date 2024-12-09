@@ -35,6 +35,29 @@ app.get("/userinfo", async (req: Request, res: Response) => {
   }
 });
 
+app.get("/allfiles", async (req: Request, res: Response) => {
+  const { accessToken = "" } = req?.query;
+
+  const oauth2Client = new google.auth.OAuth2();
+  if (accessToken && typeof accessToken === "string") {
+    console.log("access token: ", accessToken);
+    oauth2Client.setCredentials({
+      access_token: accessToken,
+    });
+  } else {
+    res.status(400).send("Invalid access token parameter provide.");
+  }
+
+  try {
+    const drive = google.drive({ version: "v2", auth: oauth2Client });
+    const response = await drive.files.list();
+    res.json(response.data);
+  } catch (error) {
+    console.log(error);
+    res.send(error);
+  }
+});
+
 app.listen(port, () => {
   console.log(`Server address: http://localhost:${port}.`);
 });
