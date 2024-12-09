@@ -5,7 +5,13 @@ import { setItem, getItem, removeItem } from "@/core/storage/localStorage";
 import CurrentUser from "./core/auth/models/CurrentUser";
 import { getInitialsForName, scopes } from "./core/auth/utils";
 import { Avatar, AvatarFallback } from "./components/ui/avatar";
-import { DownloadIcon, Trash2Icon, Unlock } from "lucide-react";
+import {
+  DownloadIcon,
+  ExternalLinkIcon,
+  Trash2Icon,
+  Unlock,
+  ViewIcon,
+} from "lucide-react";
 import currentUserInfo from "./core/auth/services/currentUser";
 import {
   Table,
@@ -96,17 +102,37 @@ function App() {
                 <TableCell>{file.createdDate}</TableCell>
                 <TableCell>{file.modifiedDate}</TableCell>
                 <TableCell>
-                  <span className="flex flex-row gap-2">
-                    <DownloadIcon
-                      className="cursor-pointer"
-                      color="green"
-                      size={18}
-                    />
-                    <Trash2Icon
-                      className="cursor-pointer"
-                      color="red"
-                      size={18}
-                    />
+                  <span className="flex flex-row gap-4">
+                    <div className="group relative flex justify-center">
+                      <ExternalLinkIcon
+                        className="cursor-pointer"
+                        color="gray"
+                        size={18}
+                      />
+                      <span className="absolute top-5 scale-0 rounded bg-gray-800 p-2 text-xs text-white group-hover:scale-100 z-50">
+                        View
+                      </span>
+                    </div>
+                    <div className="group relative flex justify-center">
+                      <DownloadIcon
+                        className="cursor-pointer"
+                        color="green"
+                        size={18}
+                      />
+                      <span className="absolute top-5 scale-0 rounded bg-gray-800 p-2 text-xs text-white group-hover:scale-100 z-50">
+                        Download
+                      </span>
+                    </div>
+                    <div className="group relative flex justify-center">
+                      <Trash2Icon
+                        className="cursor-pointer"
+                        color="red"
+                        size={18}
+                      />
+                      <span className="absolute top-5 scale-0 rounded bg-gray-800 p-2 text-xs text-white group-hover:scale-100 z-50">
+                        Remove
+                      </span>
+                    </div>
                   </span>
                 </TableCell>
               </TableRow>
