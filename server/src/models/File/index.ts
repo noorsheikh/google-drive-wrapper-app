@@ -1,4 +1,5 @@
 export interface File {
+  id: string;
   title: string;
   thumbnailLink: string;
   iconLink: string;

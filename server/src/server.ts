@@ -56,8 +56,10 @@ app.get("/allfiles", async (req: Request, res: Response) => {
   try {
     const drive = google.drive({ version: "v2", auth: oauth2Client });
     const response = await drive.files.list();
+    console.log(response?.data?.items);
     const items = response?.data?.items?.map(
       ({
+        id,
         title,
         thumbnailLink,
         iconLink,
@@ -65,6 +67,7 @@ app.get("/allfiles", async (req: Request, res: Response) => {
         createdDate,
         modifiedDate,
       }) => ({
+        id,
         title,
         thumbnailLink,
         iconLink,
