@@ -2,7 +2,7 @@ export interface File {
   title: string;
   thumbnailLink: string;
   iconLink: string;
-  createdData: string;
+  createdDate: string;
   modifiedDate: string;
   fileExtension: string;
 }
