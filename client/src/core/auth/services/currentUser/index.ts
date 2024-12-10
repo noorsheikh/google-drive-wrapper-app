@@ -1,6 +1,5 @@
 import { serverBaseUrl } from "@/config";
 import CurrentUser from "../../models/CurrentUser";
-import { getItem, setItem } from "@/core/storage/localStorage";
 
 const currentUserInfo = async (
   accessToken: string
@@ -9,9 +8,8 @@ const currentUserInfo = async (
     const response = await fetch(
       `${serverBaseUrl}/userinfo?access_token=${accessToken}`
     );
-    const currentUser = await response.json();
-    setItem("currentUser", JSON.stringify(currentUser));
-    return currentUser;
+
+    return await response.json();
   } catch (error) {
     console.error("Error fetching current user info, ERROR: ", error);
     return;

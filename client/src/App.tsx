@@ -1,9 +1,8 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import "./App.css";
-import { TokenResponse, useGoogleLogin } from "@react-oauth/google";
-import { setItem, getItem, removeItem } from "@/core/storage/localStorage";
+import { getItem, removeItem } from "@/core/storage/localStorage";
 import CurrentUser from "./core/auth/models/CurrentUser";
-import { getInitialsForName, scopes } from "./core/auth/utils";
+import { getInitialsForName } from "./core/auth/utils";
 import { Avatar, AvatarFallback } from "./components/ui/avatar";
 import {
   DownloadIcon,
@@ -11,7 +10,6 @@ import {
   Trash2Icon,
   Unlock,
 } from "lucide-react";
-import currentUserInfo from "./core/auth/services/currentUser";
 import {
   Table,
   TableBody,
@@ -29,41 +27,19 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
 } from "./components/ui/dropdown-menu";
+import Login from "./core/auth/pages/login";
+import { AuthContext } from "./core/auth/context";
 
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
-  const [currentUser, setCurrentUser] = useState<CurrentUser | undefined>();
   const [files, setFiles] = useState<File[] | undefined>();
+  const { isLoggedIn, accessToken, currentUser, logout } =
+    useContext(AuthContext);
 
   useEffect(() => {
-    const accessToken = getItem("accessToken");
     if (accessToken) {
-      setIsLoggedIn(true);
       getFiles(accessToken);
     }
-    if (getItem("currentUser")) {
-      setCurrentUser(JSON.parse(getItem("currentUser")));
-    }
-  }, [isLoggedIn]);
-
-  const onLogout = () => {
-    setCurrentUser(undefined);
-    removeItem("accessToken");
-    removeItem("currentUser");
-    setIsLoggedIn(false);
-  };
-
-  const login = useGoogleLogin({
-    onSuccess: async (
-      response: Omit<TokenResponse, "error" | "error_description" | "error_uri">
-    ) => {
-      setIsLoggedIn(true);
-      setItem("accessToken", response.access_token);
-      setCurrentUser(await currentUserInfo(response.access_token));
-    },
-    onError: (error) => console.log("Login Failed:", error),
-    scope: scopes.join(" "),
-  });
+  }, [accessToken]);
 
   const getFiles = async (accessToken: string) => {
     setFiles(await getAllFiles(accessToken));
@@ -98,7 +74,7 @@ function App() {
             </AvatarFallback>
           </Avatar>
           <p>{currentUser?.name}</p>
-          <Unlock color="red" size={24} onClick={onLogout} />
+          <Unlock color="red" size={24} onClick={logout} />
         </div>
       </div>
       <div className="container mx-auto place-items-center text-center py-2">
@@ -204,19 +180,7 @@ function App() {
       </div>
     </>
   ) : (
-    <div className="container mx-auto place-items-center py-32 text-center">
-      <button
-        className="px-4 py-2 border rounded-sm flex flex-row gap-2 items-center"
-        onClick={() => login()}
-      >
-        <img
-          src="https://cdn.brandfetch.io/id6O2oGzv-/theme/dark/symbol.svg?c=1dxbfHSJFAPEGdCLU4o5B"
-          height={20}
-          width={20}
-        />
-        <p>Sign in with Google</p>
-      </button>
-    </div>
+    <Login />
   );
 }
 
