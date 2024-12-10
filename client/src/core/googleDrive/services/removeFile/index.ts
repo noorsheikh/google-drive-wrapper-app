@@ -1,5 +1,4 @@
 import { serverBaseUrl } from "@/config";
-import { File } from "../../models/File";
 
 const removeFile = async (
   accessToken: string,

@@ -10,7 +10,6 @@ import {
   ExternalLinkIcon,
   Trash2Icon,
   Unlock,
-  ViewIcon,
 } from "lucide-react";
 import currentUserInfo from "./core/auth/services/currentUser";
 import {
@@ -24,6 +23,7 @@ import {
 import getAllFiles from "./core/googleDrive/services/getAllFiles";
 import { File } from "./core/googleDrive/models/File";
 import removeFile from "./core/googleDrive/services/removeFile";
+import downloadFile from "./core/googleDrive/services/downloadFile";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
@@ -74,6 +74,14 @@ function App() {
     }
   };
 
+  const downloadFileActionHandler = (link: string) => {
+    window.location.assign(link);
+  };
+
+  const viewFileActionHandler = (link: string) => {
+    window.open(link, "_blank");
+  };
+
   return isLoggedIn ? (
     <>
       <div className="container mx-auto p-4 bg-slate-50 flex flex-row justify-between">
@@ -119,6 +127,9 @@ function App() {
                         className="cursor-pointer"
                         color="gray"
                         size={18}
+                        onClick={() =>
+                          viewFileActionHandler(file?.alternateLink ?? "")
+                        }
                       />
                       <span className="absolute top-5 scale-0 rounded bg-gray-800 p-2 text-xs text-white group-hover:scale-100 z-50">
                         View
@@ -129,6 +140,9 @@ function App() {
                         className="cursor-pointer"
                         color="green"
                         size={18}
+                        onClick={() =>
+                          downloadFileActionHandler(file?.webContentLink ?? "")
+                        }
                       />
                       <span className="absolute top-5 scale-0 rounded bg-gray-800 p-2 text-xs text-white group-hover:scale-100 z-50">
                         Download
