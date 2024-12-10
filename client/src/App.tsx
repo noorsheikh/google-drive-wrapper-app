@@ -27,6 +27,7 @@ import {
 } from "./components/ui/dropdown-menu";
 import Login from "./core/auth/pages/login";
 import { AuthContext } from "./core/auth/context";
+import dayjs from "dayjs";
 
 function App() {
   const [files, setFiles] = useState<File[] | undefined>();
@@ -96,9 +97,15 @@ function App() {
               files?.map((file) => (
                 <TableRow key={file.id} className="text-left">
                   <TableCell>{file.title}</TableCell>
-                  <TableCell>{file.fileExtension ?? "unknown"}</TableCell>
-                  <TableCell>{file.createdDate}</TableCell>
-                  <TableCell>{file.modifiedDate}</TableCell>
+                  <TableCell className="w-[100px]">
+                    {file.fileExtension ?? "unknown"}
+                  </TableCell>
+                  <TableCell className="w-[200px]">
+                    {dayjs(file.createdDate).format("MM-DD-YYYY h:mm A")}
+                  </TableCell>
+                  <TableCell className="w-[200px]">
+                    {dayjs(file.modifiedDate).format("MM-DD-YYYY h:mm A")}
+                  </TableCell>
                   <TableCell>
                     <span className="flex flex-row gap-4">
                       <div className="group relative flex justify-center">
