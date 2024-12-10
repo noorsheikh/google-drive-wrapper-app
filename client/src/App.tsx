@@ -1,7 +1,5 @@
 import { useContext, useEffect, useState } from "react";
 import "./App.css";
-import { getItem, removeItem } from "@/core/storage/localStorage";
-import CurrentUser from "./core/auth/models/CurrentUser";
 import { getInitialsForName } from "./core/auth/utils";
 import { Avatar, AvatarFallback } from "./components/ui/avatar";
 import {
@@ -46,7 +44,6 @@ function App() {
   };
 
   const removeFileActionHandler = async (fileId: string) => {
-    const accessToken = getItem("accessToken");
     if (accessToken && fileId) {
       const fileRemoved = await removeFile(accessToken, fileId);
       if (fileRemoved) {
