@@ -5,7 +5,7 @@ import { Avatar, AvatarFallback } from "./components/ui/avatar";
 import { Unlock } from "lucide-react";
 import Login from "./core/auth/pages/login";
 import { AuthContext } from "./core/auth/context";
-import Files from "./features/list-files/pages/files";
+import Files from "./features/pages/files";
 
 function App() {
   const { isLoggedIn, currentUser, logout } = useContext(AuthContext);

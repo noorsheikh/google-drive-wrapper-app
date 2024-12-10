@@ -19,6 +19,8 @@ import removeFile from "@/core/googleDrive/services/removeFile";
 import dayjs from "dayjs";
 import { DownloadIcon, ExternalLinkIcon, Trash2Icon } from "lucide-react";
 import { useContext, useEffect, useState } from "react";
+import TableActionItem from "../components/table-action-item";
+import { formatDateTime } from "../utils";
 
 const Files = () => {
   const [files, setFiles] = useState<File[] | undefined>();
@@ -78,14 +80,14 @@ const Files = () => {
                   {file.fileExtension ?? "unknown"}
                 </TableCell>
                 <TableCell className="w-[200px]">
-                  {dayjs(file.createdDate).format("MM-DD-YYYY h:mm A")}
+                  {formatDateTime(file.createdDate)}
                 </TableCell>
                 <TableCell className="w-[200px]">
-                  {dayjs(file.modifiedDate).format("MM-DD-YYYY h:mm A")}
+                  {formatDateTime(file.modifiedDate)}
                 </TableCell>
                 <TableCell>
                   <span className="flex flex-row gap-4">
-                    <div className="group relative flex justify-center">
+                    <TableActionItem label="View">
                       <ExternalLinkIcon
                         className="cursor-pointer"
                         color="gray"
@@ -94,11 +96,8 @@ const Files = () => {
                           viewFileActionHandler(file?.alternateLink ?? "")
                         }
                       />
-                      <span className="absolute top-5 scale-0 rounded bg-gray-800 p-2 text-xs text-white group-hover:scale-100 z-50">
-                        View
-                      </span>
-                    </div>
-                    <div className="group relative flex justify-center">
+                    </TableActionItem>
+                    <TableActionItem label="Download">
                       {file?.exportLinks ? (
                         <DropdownMenu>
                           <DropdownMenuTrigger>
@@ -137,21 +136,15 @@ const Files = () => {
                           }
                         />
                       )}
-                      <span className="absolute top-5 scale-0 rounded bg-gray-800 p-2 text-xs text-white group-hover:scale-100 z-50">
-                        Download
-                      </span>
-                    </div>
-                    <div className="group relative flex justify-center">
+                    </TableActionItem>
+                    <TableActionItem label="Remove">
                       <Trash2Icon
                         className="cursor-pointer"
                         color="red"
                         size={18}
                         onClick={() => removeFileActionHandler(file.id)}
                       />
-                      <span className="absolute top-5 scale-0 rounded bg-gray-800 p-2 text-xs text-white group-hover:scale-100 z-50">
-                        Remove
-                      </span>
-                    </div>
+                    </TableActionItem>
                   </span>
                 </TableCell>
               </TableRow>
