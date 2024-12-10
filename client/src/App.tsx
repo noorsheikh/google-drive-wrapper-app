@@ -12,7 +12,7 @@ function App() {
 
   return isLoggedIn ? (
     <>
-      <div className="container mx-auto p-4 bg-slate-50 flex flex-row justify-between">
+      <div className="container mx-auto p-2 items-center bg-slate-50 flex flex-row justify-between">
         <h1>Google Drive Wrapper</h1>
         <div className="flex flex-row items-center gap-3">
           <Avatar>
@@ -21,7 +21,7 @@ function App() {
             </AvatarFallback>
           </Avatar>
           <p>{currentUser?.name}</p>
-          <Unlock color="red" size={24} onClick={logout} />
+          <Unlock color="red" size={22} onClick={logout} />
         </div>
       </div>
       <Files />

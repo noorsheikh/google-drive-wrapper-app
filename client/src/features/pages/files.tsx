@@ -21,6 +21,7 @@ import { DownloadIcon, ExternalLinkIcon, Trash2Icon } from "lucide-react";
 import { useContext, useEffect, useState } from "react";
 import TableActionItem from "../components/table-action-item";
 import { formatDateTime } from "../utils";
+import { Button } from "@/components/ui/button";
 
 const Files = () => {
   const [files, setFiles] = useState<File[] | undefined>();
@@ -55,13 +56,18 @@ const Files = () => {
 
   return (
     <div className="container mx-auto place-items-center text-center py-2">
-      <div className="flex flex-col items-center justify-between space-y-2">
-        <h2 className="text-2xl font-bold tracking-tight">
-          All files in Google Drive
-        </h2>
-        <p className="text-muted-foreground">
-          Here's a list of your tasks for this month!
-        </p>
+      <div className="container flex flex-row items-center justify-between content-between space-y-2">
+        <div className="flex flex-col items-start">
+          <h2 className="text-2xl font-bold tracking-tight">
+            All files in Google Drive
+          </h2>
+          <p className="text-muted-foreground">
+            Here's a list of all your files in Google Drive.
+          </p>
+        </div>
+        <div className="flex">
+          <Button className="bg-blue-500">Upload File</Button>
+        </div>
       </div>
       <Table>
         <TableHeader>
