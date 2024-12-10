@@ -16,12 +16,19 @@ import { AuthContext } from "@/core/auth/context";
 import { File } from "@/core/googleDrive/models/File";
 import getAllFiles from "@/core/googleDrive/services/getAllFiles";
 import removeFile from "@/core/googleDrive/services/removeFile";
-import dayjs from "dayjs";
 import { DownloadIcon, ExternalLinkIcon, Trash2Icon } from "lucide-react";
 import { useContext, useEffect, useState } from "react";
 import TableActionItem from "../components/table-action-item";
 import { formatDateTime } from "../utils";
 import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { DialogDescription } from "@radix-ui/react-dialog";
+import { Input } from "@/components/ui/input";
 
 const Files = () => {
   const [files, setFiles] = useState<File[] | undefined>();
@@ -66,7 +73,22 @@ const Files = () => {
           </p>
         </div>
         <div className="flex">
-          <Button className="bg-blue-500">Upload File</Button>
+          <Dialog>
+            <DialogTrigger>
+              <Button className="bg-blue-500">Upload File</Button>
+            </DialogTrigger>
+            <DialogContent>
+              <DialogTitle>Upload File</DialogTitle>
+              <DialogDescription>
+                <div className="flex flex-row items-center gap-1.5">
+                  <Input id="file" type="file" />
+                  <Button className="flex flex-1 self-end bg-blue-500">
+                    Upload
+                  </Button>
+                </div>
+              </DialogDescription>
+            </DialogContent>
+          </Dialog>
         </div>
       </div>
       <Table>
