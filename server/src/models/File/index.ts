@@ -8,4 +8,5 @@ export interface File {
   modifiedDate: string;
   webContentLink?: string;
   exportLinks?: { [key: string]: string };
+  alternateLink?: string;
 }

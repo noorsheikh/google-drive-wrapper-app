@@ -68,6 +68,7 @@ app.get("/allfiles", async (req: Request, res: Response) => {
         modifiedDate,
         webContentLink,
         exportLinks,
+        alternateLink,
       }) => ({
         id,
         title,
@@ -78,6 +79,7 @@ app.get("/allfiles", async (req: Request, res: Response) => {
         modifiedDate,
         webContentLink,
         exportLinks,
+        alternateLink,
       })
     );
     res.status(200).json(items);
