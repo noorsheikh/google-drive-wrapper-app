@@ -23,7 +23,12 @@ import {
 import getAllFiles from "./core/googleDrive/services/getAllFiles";
 import { File } from "./core/googleDrive/models/File";
 import removeFile from "./core/googleDrive/services/removeFile";
-import downloadFile from "./core/googleDrive/services/downloadFile";
+import {
+  DropdownMenuTrigger,
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+} from "./components/ui/dropdown-menu";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
@@ -114,55 +119,86 @@ function App() {
             <TableHead>Actions</TableHead>
           </TableHeader>
           <TableBody>
-            {files?.map((file) => (
-              <TableRow key={file.id} className="text-left">
-                <TableCell>{file.title}</TableCell>
-                <TableCell>{file.fileExtension}</TableCell>
-                <TableCell>{file.createdDate}</TableCell>
-                <TableCell>{file.modifiedDate}</TableCell>
-                <TableCell>
-                  <span className="flex flex-row gap-4">
-                    <div className="group relative flex justify-center">
-                      <ExternalLinkIcon
-                        className="cursor-pointer"
-                        color="gray"
-                        size={18}
-                        onClick={() =>
-                          viewFileActionHandler(file?.alternateLink ?? "")
-                        }
-                      />
-                      <span className="absolute top-5 scale-0 rounded bg-gray-800 p-2 text-xs text-white group-hover:scale-100 z-50">
-                        View
-                      </span>
-                    </div>
-                    <div className="group relative flex justify-center">
-                      <DownloadIcon
-                        className="cursor-pointer"
-                        color="green"
-                        size={18}
-                        onClick={() =>
-                          downloadFileActionHandler(file?.webContentLink ?? "")
-                        }
-                      />
-                      <span className="absolute top-5 scale-0 rounded bg-gray-800 p-2 text-xs text-white group-hover:scale-100 z-50">
-                        Download
-                      </span>
-                    </div>
-                    <div className="group relative flex justify-center">
-                      <Trash2Icon
-                        className="cursor-pointer"
-                        color="red"
-                        size={18}
-                        onClick={() => removeFileActionHandler(file.id)}
-                      />
-                      <span className="absolute top-5 scale-0 rounded bg-gray-800 p-2 text-xs text-white group-hover:scale-100 z-50">
-                        Remove
-                      </span>
-                    </div>
-                  </span>
-                </TableCell>
-              </TableRow>
-            ))}
+            {files &&
+              files?.map((file) => (
+                <TableRow key={file.id} className="text-left">
+                  <TableCell>{file.title}</TableCell>
+                  <TableCell>{file.fileExtension ?? "unknown"}</TableCell>
+                  <TableCell>{file.createdDate}</TableCell>
+                  <TableCell>{file.modifiedDate}</TableCell>
+                  <TableCell>
+                    <span className="flex flex-row gap-4">
+                      <div className="group relative flex justify-center">
+                        <ExternalLinkIcon
+                          className="cursor-pointer"
+                          color="gray"
+                          size={18}
+                          onClick={() =>
+                            viewFileActionHandler(file?.alternateLink ?? "")
+                          }
+                        />
+                        <span className="absolute top-5 scale-0 rounded bg-gray-800 p-2 text-xs text-white group-hover:scale-100 z-50">
+                          View
+                        </span>
+                      </div>
+                      <div className="group relative flex justify-center">
+                        {file?.exportLinks ? (
+                          <DropdownMenu>
+                            <DropdownMenuTrigger>
+                              <DownloadIcon
+                                className="cursor-pointer"
+                                color="green"
+                                size={18}
+                              />
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent>
+                              {Object.keys(file?.exportLinks)?.map(
+                                (link, index) => (
+                                  <DropdownMenuItem
+                                    key={index}
+                                    onClick={() =>
+                                      downloadFileActionHandler(
+                                        file?.exportLinks?.[link] ?? ""
+                                      )
+                                    }
+                                  >
+                                    {link}
+                                  </DropdownMenuItem>
+                                )
+                              )}
+                            </DropdownMenuContent>
+                          </DropdownMenu>
+                        ) : (
+                          <DownloadIcon
+                            className="cursor-pointer"
+                            color="green"
+                            size={18}
+                            onClick={() =>
+                              downloadFileActionHandler(
+                                file?.webContentLink ?? ""
+                              )
+                            }
+                          />
+                        )}
+                        <span className="absolute top-5 scale-0 rounded bg-gray-800 p-2 text-xs text-white group-hover:scale-100 z-50">
+                          Download
+                        </span>
+                      </div>
+                      <div className="group relative flex justify-center">
+                        <Trash2Icon
+                          className="cursor-pointer"
+                          color="red"
+                          size={18}
+                          onClick={() => removeFileActionHandler(file.id)}
+                        />
+                        <span className="absolute top-5 scale-0 rounded bg-gray-800 p-2 text-xs text-white group-hover:scale-100 z-50">
+                          Remove
+                        </span>
+                      </div>
+                    </span>
+                  </TableCell>
+                </TableRow>
+              ))}
           </TableBody>
         </Table>
       </div>
