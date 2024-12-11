@@ -1,9 +1,14 @@
 import { serverBaseUrl } from "@/config";
 
 const removeFile = async (
-  accessToken: string,
+  accessToken: string | undefined,
   fileId: string
 ): Promise<boolean> => {
+  if (!accessToken) {
+    console.error("Invalid access token.");
+    return false;
+  }
+
   try {
     const response = await fetch(
       `${serverBaseUrl}/remove-file?access_token=${accessToken}&file_id=${fileId}`

@@ -2,8 +2,13 @@ import { serverBaseUrl } from "@/config";
 import { File } from "../../models/File";
 
 const getAllFiles = async (
-  accessToken: string
+  accessToken: string | undefined
 ): Promise<File[] | undefined> => {
+  if (!accessToken) {
+    console.error("Invalid access token");
+    return;
+  }
+
   try {
     const response = await fetch(
       `${serverBaseUrl}/allfiles?access_token=${accessToken}`
