@@ -1,5 +1,5 @@
 {
-  "name": "google-driver-wrapper-server",
+  "name": "google-drive-wrapper-server",
   "version": "0.0.1",
   "main": "index.js",
   "scripts": {

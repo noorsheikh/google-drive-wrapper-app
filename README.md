@@ -55,7 +55,7 @@ client-1  |
 client-1  | > google-drive-wrapper-app@0.0.0 dev
 server-1  |
 client-1  | > vite --host
-server-1  | > google-driver-wrapper-server@0.0.1 start
+server-1  | > google-drive-wrapper-server@0.0.1 start
 client-1  |
 server-1  | > npx ts-node ./src/server.ts
 server-1  |
