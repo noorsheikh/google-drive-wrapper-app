@@ -2,16 +2,13 @@ import { Request, Response } from "express";
 import { google } from "googleapis";
 
 import User from "../models/user.model";
+import googleOAuthClient from "../services/google-drive/google-drive.auth";
 
 export const userInfo = async (req: Request, res: Response) => {
   const { access_token = "" } = req?.query;
 
-  const oauth2Client = new google.auth.OAuth2();
-  if (access_token && typeof access_token === "string") {
-    oauth2Client.setCredentials({
-      access_token,
-    });
-  } else {
+  const oauth2Client = googleOAuthClient(access_token as string);
+  if (oauth2Client) {
     res.status(400).send("Invalid access token parameter provide.");
   }
 
