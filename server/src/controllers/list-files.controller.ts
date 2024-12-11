@@ -1,6 +1,8 @@
 import { Request, Response } from "express";
 import { google } from "googleapis";
 
+import File from "../models/file.model";
+
 export const listFiles = async (req: Request, res: Response) => {
   const { access_token = "" } = req?.query;
 
@@ -16,7 +18,7 @@ export const listFiles = async (req: Request, res: Response) => {
   try {
     const drive = google.drive({ version: "v2", auth: oauth2Client });
     const response = await drive.files.list();
-    const items = response?.data?.items?.map(
+    const items: File[] | undefined = response?.data?.items?.map(
       ({
         id,
         title,
@@ -28,18 +30,20 @@ export const listFiles = async (req: Request, res: Response) => {
         webContentLink,
         exportLinks,
         alternateLink,
-      }) => ({
-        id,
-        title,
-        thumbnailLink,
-        iconLink,
-        fileExtension,
-        createdDate,
-        modifiedDate,
-        webContentLink,
-        exportLinks,
-        alternateLink,
-      })
+      }) => {
+        return {
+          id,
+          title,
+          thumbnailLink,
+          iconLink,
+          fileExtension,
+          createdDate,
+          modifiedDate,
+          webContentLink,
+          exportLinks,
+          alternateLink,
+        } as unknown as File;
+      }
     );
     // Sort files by createdDate to show the latest files at top.
     items?.sort(

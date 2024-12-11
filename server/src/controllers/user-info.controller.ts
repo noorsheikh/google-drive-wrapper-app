@@ -1,6 +1,8 @@
 import { Request, Response } from "express";
 import { google } from "googleapis";
 
+import User from "../models/user.model";
+
 export const userInfo = async (req: Request, res: Response) => {
   const { access_token = "" } = req?.query;
 
@@ -21,7 +23,8 @@ export const userInfo = async (req: Request, res: Response) => {
 
     const response = await oauth2.userinfo.get();
     const { name, email } = response.data;
-    res.status(200).json({ name, email });
+    const userInfo = { name, email } as User;
+    res.status(200).json(userInfo);
   } catch (error) {
     console.log(error);
     res.status(400).send(error);

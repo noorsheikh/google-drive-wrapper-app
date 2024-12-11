@@ -4,6 +4,7 @@ import { google } from "googleapis";
 import fs from "fs";
 import multer from "multer";
 import config from "./config";
+import User from "./models/user.model";
 
 const { PORT } = config;
 
@@ -29,7 +30,8 @@ app.get("/userinfo", async (req: Request, res: Response) => {
 
     const response = await oauth2.userinfo.get();
     const { name, email } = response.data;
-    res.status(200).json({ name, email });
+    const userInfo = { name, email } as User;
+    res.status(200).json(userInfo);
   } catch (error) {
     console.log(error);
     res.status(400).send(error);

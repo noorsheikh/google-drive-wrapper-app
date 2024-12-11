@@ -2,6 +2,8 @@ import { Request, Response } from "express";
 import { google } from "googleapis";
 import fs from "fs";
 
+import File from "../models/file.model";
+
 const uploadFile = async (req: Request, res: Response) => {
   if (!req?.file) {
     res.status(400).send("No file provided.");
@@ -45,7 +47,7 @@ const uploadFile = async (req: Request, res: Response) => {
         exportLinks,
         alternateLink,
       } = response?.data;
-      res.status(200).json({
+      const file = {
         id,
         title,
         thumbnailLink,
@@ -56,7 +58,8 @@ const uploadFile = async (req: Request, res: Response) => {
         webContentLink,
         exportLinks,
         alternateLink,
-      });
+      } as File;
+      res.status(200).json(file);
     } else {
       res.status(400).send("File content not found.");
     }

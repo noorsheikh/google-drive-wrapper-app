@@ -1,10 +1,10 @@
-export interface File {
+export default interface File {
   id: string;
   title: string;
   thumbnailLink: string;
   iconLink: string;
   fileExtension: string;
-  createdData: string;
+  createdDate: string;
   modifiedDate: string;
   webContentLink?: string;
   exportLinks?: { [key: string]: string };
