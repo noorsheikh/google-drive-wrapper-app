@@ -1,9 +1,8 @@
-import { Router, Request, Response } from "express";
+import { Router } from "express";
+import { userInfo } from "../controllers/user.controller";
 
 const router = Router();
 
-router.get("/hello", (req: Request, res: Response) => {
-  res.status(200).json({ hello: "Noor" });
-});
+router.get("/user-info", userInfo);
 
 export default router;
