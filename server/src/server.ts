@@ -85,6 +85,12 @@ app.get("/allfiles", async (req: Request, res: Response) => {
         alternateLink,
       })
     );
+    // Sort files by createdDate to show the latest files at top.
+    items?.sort(
+      (a, b) =>
+        new Date(b?.createdDate ?? "").getTime() -
+        new Date(a?.createdDate ?? "").getTime()
+    );
     res.status(200).json(items);
   } catch (error) {
     console.log(error);
