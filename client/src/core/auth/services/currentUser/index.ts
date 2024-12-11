@@ -6,7 +6,7 @@ const currentUserInfo = async (
 ): Promise<CurrentUser | undefined> => {
   try {
     const response = await fetch(
-      `${serverBaseUrl}/userinfo?access_token=${accessToken}`
+      `${serverBaseUrl}/user-info?access_token=${accessToken}`
     );
 
     return await response.json();

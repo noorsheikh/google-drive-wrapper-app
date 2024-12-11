@@ -1,7 +1,7 @@
 import { serverBaseUrl } from "@/config";
 import { File } from "../../models/File";
 
-const getAllFiles = async (
+const listFiles = async (
   accessToken: string | undefined
 ): Promise<File[] | undefined> => {
   if (!accessToken) {
@@ -11,7 +11,7 @@ const getAllFiles = async (
 
   try {
     const response = await fetch(
-      `${serverBaseUrl}/allfiles?access_token=${accessToken}`
+      `${serverBaseUrl}/list-files?access_token=${accessToken}`
     );
     return await response.json();
   } catch (error) {
@@ -20,4 +20,4 @@ const getAllFiles = async (
   }
 };
 
-export default getAllFiles;
+export default listFiles;

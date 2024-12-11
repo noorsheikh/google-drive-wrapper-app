@@ -7,7 +7,7 @@ import {
 } from "react";
 import { File } from "../models/File";
 import { AuthContext } from "@/core/auth/context";
-import getAllFiles from "../services/getAllFiles";
+import listFiles from "../services/listFiles";
 import removeFile from "../services/removeFile";
 
 interface DriveContextType {
@@ -28,7 +28,7 @@ const DriveContextProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     const fetchFiles = async () => {
-      setFiles(await getAllFiles(accessToken));
+      setFiles(await listFiles(accessToken));
     };
     fetchFiles();
   }, [accessToken]);
