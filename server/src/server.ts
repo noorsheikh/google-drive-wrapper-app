@@ -1,22 +1,13 @@
-import bodyParser from "body-parser";
-import express, { Request, Response } from "express";
+import app from "./app";
+import { Request, Response } from "express";
 import { google } from "googleapis";
-import cors from "cors";
 import fs from "fs";
 import multer from "multer";
+import config from "./config";
 
-const app = express();
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
-app.use(
-  cors({
-    origin: "http://localhost:5173",
-  })
-);
+const { PORT } = config;
 
 const upload = multer({ dest: "uploads/" });
-
-const port = 3000;
 
 app.get("/userinfo", async (req: Request, res: Response) => {
   const { access_token = "" } = req?.query;
@@ -192,6 +183,6 @@ app.post(
   }
 );
 
-app.listen(port, () => {
-  console.log(`Server address: http://localhost:${port}.`);
+app.listen(PORT, () => {
+  console.log(`Server is running on http://localhost:${PORT}`);
 });
