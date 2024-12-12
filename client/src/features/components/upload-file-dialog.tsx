@@ -1,6 +1,7 @@
 import React, { useContext, useState } from "react";
 import {
   Dialog,
+  DialogClose,
   DialogContent,
   DialogDescription,
   DialogTitle,
@@ -39,13 +40,15 @@ const UploadFileDialog = () => {
         <DialogDescription>
           <div className="flex flex-row items-center gap-1.5">
             <Input id="file" type="file" onChange={handleFileChange} />
-            <Button
-              className="flex flex-1 self-end"
-              disabled={!file}
-              onClick={() => uploadFileAction()}
-            >
-              Upload
-            </Button>
+            <DialogClose>
+              <Button
+                className="flex flex-1 self-end"
+                disabled={!file}
+                onClick={() => uploadFileAction()}
+              >
+                Upload
+              </Button>
+            </DialogClose>
           </div>
         </DialogDescription>
       </DialogContent>
