@@ -1,8 +1,10 @@
 import { Auth, drive_v2, google } from "googleapis";
 import File from "../../models/file.model";
+import fs from "fs";
 
 interface GoogleDrive {
   files(accessToken: string): Promise<File[] | undefined>;
+  uploadFile(file: Express.Multer.File): Promise<File | undefined>;
 }
 
 export default class GoogleDriveService implements GoogleDrive {
@@ -42,6 +44,7 @@ export default class GoogleDriveService implements GoogleDrive {
           } as unknown as File;
         }
       );
+
       // Sort files by createdDate to show the latest files at top.
       items?.sort(
         (a, b) =>
@@ -51,7 +54,56 @@ export default class GoogleDriveService implements GoogleDrive {
 
       return items;
     } catch (error) {
-      throw error;
+      throw new Error(`Error listing files from google drive, ERROR: ${error}`);
+    }
+  }
+
+  async uploadFile(file: Express.Multer.File): Promise<File | undefined> {
+    try {
+      const response = await this.googleDrive.files.insert({
+        media: {
+          mimeType: file?.mimetype,
+          body: fs.createReadStream(file.path),
+        },
+        requestBody: {
+          title: file?.originalname,
+        },
+      });
+
+      if (fs.existsSync(file.path)) {
+        fs.unlink(file.path, (error) => {
+          console.error("Error cleaning up file, ERROR: ", error);
+        });
+      }
+
+      const {
+        id,
+        title,
+        thumbnailLink,
+        iconLink,
+        fileExtension,
+        createdDate,
+        modifiedDate,
+        webContentLink,
+        exportLinks,
+        alternateLink,
+      } = response?.data;
+      const uploadedFile = {
+        id,
+        title,
+        thumbnailLink,
+        iconLink,
+        fileExtension,
+        createdDate,
+        modifiedDate,
+        webContentLink,
+        exportLinks,
+        alternateLink,
+      } as File;
+
+      return uploadedFile;
+    } catch (error) {
+      throw new Error(`Error uploading file to google drive, ERROR: ${error}`);
     }
   }
 }
