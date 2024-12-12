@@ -55,6 +55,7 @@ const Files = () => {
         </TableHeader>
         <TableBody>
           {files &&
+            files?.length > 0 &&
             files?.map((file) => (
               <TableRow key={file.id} className="text-left">
                 <TableCell>{file.title}</TableCell>

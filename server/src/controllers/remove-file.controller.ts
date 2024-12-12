@@ -6,7 +6,7 @@ const removeFile = async (req: Request, res: Response) => {
   const { access_token = "", file_id: fileId = "" } = req?.query;
 
   const oauth2Client = googleOAuthClient(access_token as string);
-  if (oauth2Client) {
+  if (!oauth2Client) {
     res.status(400).send("Invalid access token parameter provided.");
   }
 

@@ -1,8 +1,6 @@
 import { Auth, google } from "googleapis";
 
-const googleOAuthClient = (
-  accessToken: string
-): Auth.OAuth2Client | undefined => {
+const googleOAuthClient = (accessToken: string): Auth.OAuth2Client => {
   try {
     const oauth2Client = new google.auth.OAuth2();
     if (accessToken && typeof accessToken === "string") {
@@ -13,8 +11,7 @@ const googleOAuthClient = (
 
     return oauth2Client;
   } catch (error) {
-    console.error("Error setting google oauth client, ERROR", error);
-    return;
+    throw new Error(`Error setting google oauth client, ERROR: ${error}`);
   }
 };
 
