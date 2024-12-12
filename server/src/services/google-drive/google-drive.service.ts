@@ -5,6 +5,7 @@ import fs from "fs";
 interface GoogleDrive {
   files(accessToken: string): Promise<File[] | undefined>;
   uploadFile(file: Express.Multer.File): Promise<File | undefined>;
+  removeFile(fileId: string): Promise<boolean>;
 }
 
 export default class GoogleDriveService implements GoogleDrive {
@@ -104,6 +105,15 @@ export default class GoogleDriveService implements GoogleDrive {
       return uploadedFile;
     } catch (error) {
       throw new Error(`Error uploading file to google drive, ERROR: ${error}`);
+    }
+  }
+
+  async removeFile(fileId: string): Promise<boolean> {
+    try {
+      await this.googleDrive.files.delete({ fileId });
+      return true;
+    } catch (error) {
+      throw new Error(`Error removing file from google drive, ERROR: ${error}`);
     }
   }
 }
