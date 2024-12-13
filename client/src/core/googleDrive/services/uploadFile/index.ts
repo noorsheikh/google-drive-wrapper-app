@@ -7,7 +7,7 @@ const uploadFile = async (
 ): Promise<File | undefined> => {
   try {
     if (!(accessToken || file)) {
-      console.log("Missing parameter");
+      console.error("Missing parameter");
       return;
     }
 

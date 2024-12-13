@@ -35,7 +35,7 @@ const AuthContextProvder = ({ children }: { children: ReactNode }) => {
       setAccessToken(response.access_token);
       setCurrentUser(await currentUserInfo(response.access_token));
     },
-    onError: (error) => console.log("Login Failed:", error),
+    onError: (error) => console.error("Login Failed:", error),
     scope: scopes.join(" "),
   });
 

@@ -16,12 +16,17 @@ function App() {
         <h1>Google Drive Wrapper</h1>
         <div className="flex flex-row items-center gap-3">
           <Avatar>
-            <AvatarFallback>
+            <AvatarFallback className="bg-slate-200">
               {getInitialsForName(currentUser?.name ?? "")}
             </AvatarFallback>
           </Avatar>
           <p>{currentUser?.name}</p>
-          <Unlock color="red" size={22} onClick={logout} />
+          <Unlock
+            className="cursor-pointer"
+            color="red"
+            size={22}
+            onClick={logout}
+          />
         </div>
       </div>
       <Files />
