@@ -4,7 +4,7 @@ import { google } from "googleapis";
 import User from "../models/user.model";
 import googleOAuthClient from "../services/google-drive/google-drive.auth";
 
-export const userInfo = async (req: Request, res: Response) => {
+const userInfo = async (req: Request, res: Response) => {
   try {
     const { access_token = "" } = req?.query;
 
@@ -27,3 +27,5 @@ export const userInfo = async (req: Request, res: Response) => {
     res.status(400).send(error);
   }
 };
+
+export default userInfo;
