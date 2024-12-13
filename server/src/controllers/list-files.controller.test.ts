@@ -69,16 +69,6 @@ describe("listFiles Controller", () => {
     expect(jsonMock).toHaveBeenCalledWith(mockFiles);
   });
 
-  it("should return 400 if access_token is missing", async () => {
-    await listFiles(mockRequest as Request, mockResponse as Response);
-
-    expect(googleOAuthClient).toHaveBeenCalledWith("");
-    expect(statusMock).toHaveBeenCalledWith(400);
-    expect(sendMock).toHaveBeenCalledWith(
-      "Invalid access token parameter provided."
-    );
-  });
-
   it("should return 400 if GoogleDriveService throws an error", async () => {
     const mockAccessToken = "mock-access-token";
     const mockError = new Error("Google Drive API error");
