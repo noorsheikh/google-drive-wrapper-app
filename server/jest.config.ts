@@ -114,10 +114,10 @@ const config: Config = {
   // restoreMocks: false,
 
   // The root directory that Jest should scan for tests and modules within
-  rootDir: "./",
+  rootDir: "./src",
 
   // A list of paths to directories that Jest should use to search for files in
-  roots: ["<rootDir>"],
+  // roots: ["<rootDir>"],
 
   // Allows you to use a custom runner instead of Jest's default test runner
   // runner: "jest-runner",
@@ -147,9 +147,7 @@ const config: Config = {
   testMatch: ["**/__tests__/**/*.[jt]s?(x)", "**/?(*.)+(spec|test).[tj]s?(x)"],
 
   // An array of regexp pattern strings that are matched against all test paths, matched tests are skipped
-  // testPathIgnorePatterns: [
-  //   "/node_modules/"
-  // ],
+  testPathIgnorePatterns: ["/node_modules/", "/dist/", "/coverage/"],
 
   // The regexp pattern or array of patterns that Jest uses to detect test files
   // testRegex: [],
