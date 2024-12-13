@@ -68,6 +68,38 @@ client-1  |   ➜  Network: http://172.19.0.2:5173/
 server-1  | Server address: http://localhost:3000.
 ```
 
+### Running Tests
+
+The tests are only adding for server code inside `./server` directory.
+
+The tests can be execute both from inside the server container and also from local PC using `npm run test`.
+
+Example tests execution result:
+
+```
+----------------------------|---------|----------|---------|---------|-------------------
+File                        | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s
+----------------------------|---------|----------|---------|---------|-------------------
+All files                   |   98.16 |    72.22 |     100 |   98.16 |
+ controllers                |   96.61 |    75.67 |     100 |   96.61 |
+  list-files.controller.ts  |   91.66 |       60 |     100 |   91.66 | 12-13
+  remove-file.controller.ts |   93.54 |       80 |     100 |   93.54 | 11-12
+  upload-file.controller.ts |     100 |       75 |     100 |     100 | 7-12,19-21
+  user-info.controller.ts   |     100 |    83.33 |     100 |     100 | 9
+ routes                     |     100 |      100 |     100 |     100 |
+  index.ts                  |     100 |      100 |     100 |     100 |
+ services/google-drive      |   99.27 |    68.57 |     100 |   99.27 |
+  google-drive.auth.ts      |     100 |      100 |     100 |     100 |
+  google-drive.service.ts   |   99.15 |    63.33 |     100 |   99.15 | 76
+----------------------------|---------|----------|---------|---------|-------------------
+
+Test Suites: 8 passed, 8 total
+Tests:       29 passed, 29 total
+Snapshots:   0 total
+Time:        127.586 s
+Ran all test suites.
+```
+
 ### Finally once the above is completed successfully, this is how the UI will look like.
 
 #### Login Screen
