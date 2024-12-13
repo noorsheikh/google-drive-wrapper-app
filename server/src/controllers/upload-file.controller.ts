@@ -24,7 +24,7 @@ const uploadFile = async (req: Request, res: Response) => {
       res.status(400).send("File content not found.");
     }
   } catch (error) {
-    console.log(error);
+    console.error(error);
     res.status(400).send(error);
   }
 };

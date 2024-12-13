@@ -4,5 +4,5 @@ import config from "./config";
 const { PORT } = config;
 
 app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
+  console.info(`Server is running on http://localhost:${PORT}`);
 });

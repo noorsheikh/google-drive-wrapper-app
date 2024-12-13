@@ -23,7 +23,7 @@ const userInfo = async (req: Request, res: Response) => {
     const userInfo = { name, email } as User;
     res.status(200).json(userInfo);
   } catch (error) {
-    console.log(error);
+    console.error(error);
     res.status(400).send(error);
   }
 };

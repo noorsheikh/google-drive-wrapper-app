@@ -16,7 +16,7 @@ export const listFiles = async (req: Request, res: Response) => {
     const files = await googleDriveService.files();
     res.status(200).json(files);
   } catch (error) {
-    console.log(error);
+    console.error(error);
     res.status(400).send(error);
   }
 };

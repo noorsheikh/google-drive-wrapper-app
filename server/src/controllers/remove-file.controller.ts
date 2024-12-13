@@ -23,7 +23,7 @@ const removeFile = async (req: Request, res: Response) => {
       res.status(400).send("Invalid file id");
     }
   } catch (error) {
-    console.log(error);
+    console.error(error);
     res.status(400).send(error);
   }
 };
